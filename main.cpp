@@ -1,10 +1,9 @@
-// main.cpp
 #include "Scheduler.h"
 #include <iostream>
 #include <string>
 #include <limits>
 
-using namespace std; // keep implementation simple for the console app
+using namespace std;
 
 /**
  * @file main.cpp
@@ -15,6 +14,10 @@ using namespace std; // keep implementation simple for the console app
  * performs only basic input validation and delegates all business logic
  * to the Scheduler instance.
  */
+
+// -------------------------
+// MAIN FUNCTION
+// -------------------------
 
 int main() {
     Scheduler scheduler;

@@ -1,4 +1,3 @@
-// Scheduler.h
 #pragma once
 
 #include "Task.h"

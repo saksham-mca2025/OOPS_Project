@@ -1,4 +1,3 @@
-// Task.h
 #pragma once
 
 #include <string>
@@ -111,7 +110,6 @@ inline void Task::markFinished() {
 }
 
 inline std::string Task::getDetails() const {
-    // Build the simple details string without stringstreams.
     std::string statusStr;
     switch (status) {
         case Status::Staged: statusStr = "Staged"; break;
