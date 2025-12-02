@@ -50,7 +50,7 @@ int main() {
                 int estimate = 0;
                 std::cout << "Enter task description: ";
                 std::getline(std::cin, desc);
-                std::cout << "Estimated duration (minutes): ";
+                std::cout << "Estimated duration (seconds): ";
                 if (!(std::cin >> estimate)) {
                     std::cin.clear();
                     std::string junk;

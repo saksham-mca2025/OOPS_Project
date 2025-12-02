@@ -38,7 +38,7 @@ public:
      *
      * @param id Unique identifier to assign to this task.
      * @param description Human-readable description of the task.
-     * @param estimate Estimated duration in minutes.
+     * @param estimate Estimated duration in seconds.
      *
      * @note Side-effect: initializes internal status to Status::Staged and
      *       start/finish times to zero.
@@ -88,8 +88,8 @@ public:
     /** @brief Finish time recorded when task was completed (0 if not finished). */
     std::time_t finishTime;
 
-    /** @brief Estimated duration in minutes provided by the user. */
-    int estimatedDurationMinutes;
+    /** @brief Estimated duration in seconds provided by the user. */
+    int estimatedDurationSeconds;
 };
 
 // -------------------------
@@ -97,7 +97,7 @@ public:
 // -------------------------
 
 inline Task::Task(int id_, const std::string& description_, int estimate)
-    : id(id_), description(description_), status(Status::Staged), startTime(0), finishTime(0), estimatedDurationMinutes(estimate) {}
+    : id(id_), description(description_), status(Status::Staged), startTime(0), finishTime(0), estimatedDurationSeconds(estimate) {}
 
 inline void Task::markActive() {
     status = Status::Active;
@@ -118,7 +118,7 @@ inline std::string Task::getDetails() const {
     }
 
     std::string result = "[#" + std::to_string(id) + "] " + description + " | Status: " + statusStr;
-    result += " | Estimate: " + std::to_string(estimatedDurationMinutes) + " min";
+    result += " | Estimate: " + std::to_string(estimatedDurationSeconds) + " sec";
 
     if (startTime != 0) {
         char* s = std::ctime(&startTime); // ctime returns newline-terminated string

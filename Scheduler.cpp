@@ -2,6 +2,9 @@
 #include <iostream>
 #include <algorithm>
 #include <ctime>
+#include <fstream>
+#include <iomanip>
+#include <sstream>
 
 /**
  * @file Scheduler.cpp
@@ -56,6 +59,7 @@ void Scheduler::finishTask(int id) {
     finishedLog.push_back(*t);
     activeTasks.erase(std::remove_if(activeTasks.begin(), activeTasks.end(), [id](const Task& x){ return x.id == id; }), activeTasks.end());
 
+    logTaskToCSV(*t);
     std::cout << "Finished task [#" << id << "].\n";
 }
 
@@ -108,4 +112,63 @@ Task* Scheduler::findTaskById(int id, std::vector<Task>& list) {
         if (t.id == id) return &t;
     }
     return nullptr;
+}
+
+void Scheduler::logTaskToCSV(const Task& task) {
+    const std::string filename = "finished_tasks.csv";
+    bool fileExists = false;
+    
+    // Check if file exists
+    std::ifstream checkFile(filename);
+    fileExists = checkFile.good();
+    checkFile.close();
+    
+    std::ofstream csvFile(filename, std::ios::app);
+    if (!csvFile) {
+        std::cerr << "Error: Could not open CSV file for logging.\n";
+        return;
+    }
+    
+    // Write header if file is new
+    if (!fileExists) {
+        csvFile << "ID,Description,Estimated Duration (sec),Start Time,Finish Time,Actual Duration (sec)\n";
+    }
+    
+    // Format timestamps
+    auto formatTime = [](std::time_t t) -> std::string {
+        if (t == 0) return "N/A";
+        std::tm* tm = std::localtime(&t);
+        std::stringstream ss;
+        ss << std::put_time(tm, "%Y-%m-%d %H:%M:%S");
+        return ss.str();
+    };
+    
+    // Calculate actual duration
+    long long actualDuration = 0;
+    if (task.startTime != 0 && task.finishTime != 0) {
+        actualDuration = static_cast<long long>(std::difftime(task.finishTime, task.startTime));
+    }
+    
+    // Escape description for CSV (handle commas and quotes)
+    std::string escapedDesc = task.description;
+    if (escapedDesc.find(',') != std::string::npos || escapedDesc.find('"') != std::string::npos) {
+        // Replace " with ""
+        size_t pos = 0;
+        while ((pos = escapedDesc.find('"', pos)) != std::string::npos) {
+            escapedDesc.replace(pos, 1, "\"\"");
+            pos += 2;
+        }
+        escapedDesc = "\"" + escapedDesc + "\"";
+    }
+    
+    // Write task data
+    csvFile << task.id << ","
+            << escapedDesc << ","
+            << task.estimatedDurationSeconds << ","
+            << formatTime(task.startTime) << ","
+            << formatTime(task.finishTime) << ","
+            << actualDuration << "\n";
+    
+    csvFile.close();
+    std::cout << "Task logged to " << filename << "\n";
 }

@@ -31,7 +31,7 @@ public:
      * @brief Add a new task to the staged list.
      *
      * @param description Human-readable description of the task.
-     * @param estimate Estimated duration in minutes.
+     * @param estimate Estimated duration in seconds.
      * @note Side-effect: appends a Task to `stagedTasks` and increments `nextId`.
      * @return void
      */
@@ -100,6 +100,15 @@ public:
     Task* findTaskById(int id, std::vector<Task>& list);
 
 private:
+    /**
+     * @brief Log a finished task to CSV file.
+     *
+     * @param task The completed task to log.
+     * @note Appends task data to finished_tasks.csv in the current directory.
+     * @return void
+     */
+    void logTaskToCSV(const Task& task);
+
     /** @brief Tasks waiting to be started. */
     std::vector<Task> stagedTasks;
 
