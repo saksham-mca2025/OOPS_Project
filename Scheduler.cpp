@@ -114,6 +114,18 @@ Task* Scheduler::findTaskById(int id, std::vector<Task>& list) {
     return nullptr;
 }
 
+const std::vector<Task>& Scheduler::getStagedTasks() const {
+    return stagedTasks;
+}
+
+const std::vector<Task>& Scheduler::getActiveTasks() const {
+    return activeTasks;
+}
+
+const std::vector<Task>& Scheduler::getFinishedTasks() const {
+    return finishedLog;
+}
+
 void Scheduler::logTaskToCSV(const Task& task) {
     const std::string filename = "finished_tasks.csv";
     bool fileExists = false;

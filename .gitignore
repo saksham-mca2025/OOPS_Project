@@ -1,6 +1,9 @@
 # Visual Studio Code settings
 .vscode/
 
+# Dependiency directories
+FTXUI/
+
 # Compiled object files
 *.o
 

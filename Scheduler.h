@@ -99,6 +99,27 @@ public:
      */
     Task* findTaskById(int id, std::vector<Task>& list);
 
+    /**
+     * @brief Get the staged tasks list.
+     *
+     * @return const std::vector<Task>& Reference to staged tasks.
+     */
+    const std::vector<Task>& getStagedTasks() const;
+
+    /**
+     * @brief Get the active tasks list.
+     *
+     * @return const std::vector<Task>& Reference to active tasks.
+     */
+    const std::vector<Task>& getActiveTasks() const;
+
+    /**
+     * @brief Get the finished tasks list.
+     *
+     * @return const std::vector<Task>& Reference to finished tasks.
+     */
+    const std::vector<Task>& getFinishedTasks() const;
+
 private:
     /**
      * @brief Log a finished task to CSV file.
